@@ -225,7 +225,7 @@ def sanitize(x):
 
 def parse_ltrace(ltrace):
 
-    match_call = r"^([a-z_]+)\((.*)\) += (.*)"
+    match_call = r"^([a-z_]+)(@libc.so.6)?\((.*)\) +?= (.*)"
     match_err = r"^([a-z_]+)\((.*) <no return \.\.\.>"
 
     for line in ltrace:
@@ -239,7 +239,7 @@ def parse_ltrace(ltrace):
             continue
 
         try:
-            func, args, ret = re.findall(match_call, line)[0]
+            func, file, args, ret = re.findall(match_call, line)[0]
         except Exception:
 
             try:
